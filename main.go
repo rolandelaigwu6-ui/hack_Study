@@ -8,7 +8,7 @@ import (
 
 func Loadbanner(filename string) (map[rune][]string, error) {
 	if filename == "" {
-		
+
 		return nil, fmt.Errorf("Cannot be empty")
 	}
 	file, err := os.Open(filename)
@@ -23,21 +23,24 @@ func Loadbanner(filename string) (map[rune][]string, error) {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-	if err := scanner.Err();err != nil {
-		return nil, fmt.Errorf("Error while reading file: %w",err)
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("Error while reading file: %w", err)
 	}
 
 	if len(lines) != 855 {
-		return nil,fmt.Errorf("error:")
+		return nil, fmt.Errorf("error: Invalid banner file: expected 855 lines check line [%d] ", len(lines))
 	}
-	for i,line := range lines {
+	if len(lines)%9 != 0 {
+		return nil, fmt.Errorf("corrupted banner: not divisible into 9-line blocks")
+	}
+	for i, line := range lines {
 		if len(line) > 95 {
-			return nil,fmt.Errorf("Invalid at %d: character ranging 0-95 %d",i+1,len(line))
+			return nil, fmt.Errorf("Invalid at %d: character ranging 0-95 %d", i+1, len(line))
 		}
 	}
 	banner := make(map[rune][]string)
 	currentrune := rune(32)
-	for i := 0; i < len(lines); i+=9 {
+	for i := 0; i < len(lines); i += 9 {
 		if i+8 > len(lines) {
 			return nil, fmt.Errorf("Invalid: at rune %d", currentrune)
 		}
@@ -48,10 +51,9 @@ func Loadbanner(filename string) (map[rune][]string, error) {
 	if len(banner) > 95 {
 		return nil, fmt.Errorf("Invalid ")
 	}
-	return banner,nil
+	return banner, nil
 
 }
-
 
 func main() {
 	if len(os.Args) != 3 {
