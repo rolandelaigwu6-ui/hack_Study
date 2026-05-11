@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 )
-func loadbanner( filaname string) (map[rune][]string, error) {
+func loadbanner( filename string) (map[rune][]string, error) {
 	if len(filename) == 0 {
 		return nil, fmt.Errorf("filename is empty")
 	}
@@ -34,6 +34,9 @@ func loadbanner( filaname string) (map[rune][]string, error) {
 		charblock := line[i+1 : i+9]
 		banner[currentrune] = charblock
 		currentrune++
+	}
+	if len(banner) != 95 {
+		return nil, fmt.Errorf("unsupported char expected 95 got %v", len(banner))
 	}
 	return banner, nil
 
