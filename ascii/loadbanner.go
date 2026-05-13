@@ -27,7 +27,7 @@ func LoadBanner( filename string) (map[rune][]string, error) {
 	}
 	banner := make(map[rune][]string)
 	currentrune := rune(32)
-	for i := 0; i < len(line); i += 8 {
+	for i := 0; i < len(line); i += 9 {
 		if i+8 > len(line) {
 			return nil, fmt.Errorf("unsupported  rune %v at index %d", currentrune, i)
 		}
