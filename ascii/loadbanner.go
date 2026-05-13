@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 )
-func loadbanner( filename string) (map[rune][]string, error) {
+func LoadBanner( filename string) (map[rune][]string, error) {
 	if len(filename) == 0 {
 		return nil, fmt.Errorf("filename is empty")
 	}
